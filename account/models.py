@@ -12,6 +12,9 @@ class UserBankAccount(models.Model):
     gender=models.CharField(max_length=100,choices=GENDER_TYPE)
     initial_deposit_date=models.DateField(auto_now_add=True)
 
+    def __str__(self):
+        return str(self.account_no)
+
 
 class UserAddress(models.Model):
     user=models.OneToOneField(User,related_name='address', on_delete=models.CASCADE)
@@ -19,4 +22,6 @@ class UserAddress(models.Model):
     city=models.CharField(max_length=50)
     postal_code=models.IntegerField()
     country=models.CharField(max_length=100)
-    
+
+    def __str__(self):
+        return str(self.user.username)
