@@ -47,5 +47,16 @@ class UserRegistrationForm(UserCreationForm):
                 account_no=10000+user.id
             )
         return user
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update(
+                {
+                    'class':'form-control form-control-sm mb-2',
+                    'placeholder':self.fields[field].label,
+                    
+                }
+            )
+            
 
      
