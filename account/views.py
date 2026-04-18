@@ -7,8 +7,8 @@ from django.contrib.auth import login
 # Create your views here.
 
 
-class UserRegistraionView(FormView):
-    template_name='registration.html'
+class UserRegistrationView(FormView):
+    template_name='userregistration.html'
     form_class=UserRegistrationForm
     success_url=reverse_lazy('home')
     def form_valid(self,form):

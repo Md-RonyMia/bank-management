@@ -14,9 +14,10 @@ class UserRegistrationForm(UserCreationForm):
     postal_code=forms.IntegerField()
     country=forms.CharField(max_length=100)
 
+
     class Meta:
         model=User
-        fields=['username','email','password1','password2','birth_date','gender','street_address','city','postal_code','country']       
+        fields=['username','first_name','last_name','email','password1','password2','birth_date','account_type','gender','street_address','city','postal_code','country']       
 
     def save(self,commit=True):
         user=super().save(commit=False)
@@ -30,7 +31,7 @@ class UserRegistrationForm(UserCreationForm):
             street_address=self.cleaned_data['street_address']
             birth_date=self.cleaned_data['birth_date']
 
-            UserAddess.objects.create(
+            UserAddress.objects.create(
                 user=user,
                 postal_code=postal_code,
                 country=country,
@@ -38,7 +39,7 @@ class UserRegistrationForm(UserCreationForm):
                 street_address=street_address
 
             )
-           UserBankAccount.objects.create(
+            UserBankAccount.objects.create(
                 user=user,
                 account_type=account_type,
                 gender=gender,
