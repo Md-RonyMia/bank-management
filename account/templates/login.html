@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="width: 400px; margin: 50px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px;">
+
+```
+<h2 style="text-align: center;">Login</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <!-- Username -->
+    <div style="margin-bottom: 15px;">
+        <label>Username:</label><br>
+        {{ form.username }}
+    </div>
+
+    <!-- Password -->
+    <div style="margin-bottom: 15px;">
+        <label>Password:</label><br>
+        {{ form.password }}
+    </div>
+
+    <!-- Errors -->
+    {% if form.errors %}
+        <div style="color: red; margin-bottom: 10px;">
+            Invalid username or password
+        </div>
+    {% endif %}
+    <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        Login
+    </button>
+</form>
+
+<p style="text-align: center; margin-top: 15px;">
+    Don't have an account? 
+    <a href="{% url 'register' %}">Register</a>
+</p>
+```
+
+</div>
+{% endblock %}
