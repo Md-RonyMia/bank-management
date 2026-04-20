@@ -2,7 +2,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+<div style="background-color: blue;min-height: 90vh;display: flex;justify-content: center;align-items: center; padding: 20px;">
+
+
+    <div style=" background-color: rgb(108 253 13 / 25%); width: 400px; margin: 50px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px; font-family: sans-serif;">
         <div class="w-100" style="max-width: 450px;">
             {% if form_non_field_errors %}
             {% for error in form_non_field_errors %}
@@ -164,6 +167,7 @@
         </div>
             </form>
         </div>
+    </div>
     </div>
 
 {% endblock %}

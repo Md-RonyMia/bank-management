@@ -1,43 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box; 
+        display: block;
+    }
+</style>
 
-<div style="width: 400px; margin: 50px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px;">
+<div style="background-color: blue;min-height: 90vh;display: flex;justify-content: center;align-items: center; padding: 20px;">
+    <div style=" background-color: rgb(108 253 13 / 25%); width: 400px; margin: 50px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px; font-family: sans-serif;">
 
-```
-<h2 style="text-align: center;">Login</h2>
+    <h2 style="text-align: center;">Login</h2>
 
-<form method="POST">
-    {% csrf_token %}
+    <form method="POST">
+        {% csrf_token %}
 
-    <!-- Username -->
-    <div style="margin-bottom: 15px;">
-        <label>Username:</label><br>
-        {{ form.username }}
-    </div>
-
-    <!-- Password -->
-    <div style="margin-bottom: 15px;">
-        <label>Password:</label><br>
-        {{ form.password }}
-    </div>
-
-    <!-- Errors -->
-    {% if form.errors %}
-        <div style="color: red; margin-bottom: 10px;">
-            Invalid username or password
+        <div style="margin-bottom: 15px;" class="form-group">
+            <label>Username:</label>
+            {{ form.username }}
         </div>
-    {% endif %}
-    <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
-        Login
-    </button>
-</form>
 
-<p style="text-align: center; margin-top: 15px;">
-    Don't have an account? 
-    <a href="{% url 'register' %}">Register</a>
-</p>
-```
+        <div style="margin-bottom: 15px;" class="form-group">
+            <label>Password:</label>
+            {{ form.password }}
+        </div>
 
+        {% if form.errors %}
+            <div style="color: #d9534f; background-color: #f2dede; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 14px;">
+                Invalid username or password
+            </div>
+        {% endif %}
+
+        <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+            Login
+        </button>
+    </form>
+
+    <p style="text-align: center; margin-top: 15px;">
+        Don't have an account? 
+        <a href="{% url 'register' %}" style="color: #007bff; text-decoration: none;">Register</a>
+    </p>
+
+</div>
 </div>
 {% endblock %}
