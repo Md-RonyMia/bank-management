@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from .models import Transactions
+from .constants import TransactionType, DEPOSIT
+from django.contrib import messages
 from .forms import TransactionForm,DepositForm,WithdrawalForm,LoanForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -25,4 +27,21 @@ class TransactionCreateMixin(LoginRequiredMixin,CreateView):
          context.update({
              'title':self.title
              })   
+
+class DepositeMoneyView(TransactionCreateMixin):
+    form_class=DepositForm
+    title='Deposit'
+    def get_initial(self):
+        initial={'transaction_type':DEPOSIT}
+        return initial
+    def form_valid(self, form):
+        amount=form.cleaned_data['amount']
+        account=self.request.user.account
+        account.balance+=amount
+        account.save({
+            update_fields=['balance']
+        })
+
+        message.success(self.request,'Money Deposited Successfully')
+        return super().form_valid(form)
     
