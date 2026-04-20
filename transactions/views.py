@@ -6,6 +6,8 @@ from .constants import TransactionType, DEPOSIT
 from django.contrib import messages
 from .forms import TransactionForm,DepositForm,WithdrawalForm,LoanForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .constants import DEPOSIT, WITHDRAWAL, LOAN
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -44,4 +46,41 @@ class DepositeMoneyView(TransactionCreateMixin):
 
         message.success(self.request,'Money Deposited Successfully')
         return super().form_valid(form)
-    
+
+class WithdrawMoneyView(TransactionCreateMixin):
+    form_class=WithdrawalForm
+    title="Withdrawal"
+    def get_initial(self):
+        initial={'transaction_type':WITHDRAWAL}
+        return initial
+    def form_valid(self, form):
+        amount=form.cleaned_data['amount']
+        account=self.request.user.account
+        account.balance-=amount
+        account.save({
+            update_fields=['balance']
+        })
+
+        messages.success(self.request,'Money Withdrawn Successfully')
+        return super().form_valid(form)
+
+
+class LoanRequestView(TransactionCreateMixin):
+    form_class=LoanForm
+    title="Loan Request"
+    def get_initial(self):
+        initial={'transaction_type':LOAN}
+        return initial
+    def form_valid(self, form):
+        amount=form.cleaned_data['amount']
+        current_loan_count=Transactions.objects.filter(account=self.request.user.account, transaction_type=LOAN, loan_approved =True).count()
+        if current_loan_count >= 3:
+            return httpResponse('Loan limit reached. You cannot request more than 3 loans.')
+        account=self.request.user.account
+        account.balance+=amount
+        account.save({
+            update_fields=['balance']
+        })
+
+        messages.success(self.request,'Loan Granted Successfully')
+        return super().form_valid(form)
